@@ -97,12 +97,10 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 	return ;
 }
 
-void	process(int pid, char *msg)
+void	process(int pid, char *msg, int i)
 {
-	int	i;
 	struct sigaction	wait;
 
-	i = 0;
 	while (msg[i])
 	{
 		if (msg[i] == '0')
@@ -117,10 +115,30 @@ void	process(int pid, char *msg)
 		while (g_glob == 0)
 		{
 			if (sleep(5) == 0)
+			{
+				free(msg);
 				exit(0);
+			}
 		}
 		g_glob = 0;
 		i++;
+	}
+	i = 0;
+	while (i < 8)
+	{
+		kill(pid, SIGUSR1);
+		sigaction(SIGUSR1, &wait, NULL);
+		while (g_glob == 0)
+		{
+			if (sleep(5) == 0)
+			{
+				free(msg);
+				exit(0);
+			}
+		}
+		g_glob = 0;
+		i++;
+
 	}
 }
 
@@ -135,10 +153,9 @@ int	main(int ac, char **av)
 	if (i < 2)
 		exit(1);
 	msg = get_bin(av[2]);
-	printf("coucou");
 	if (!msg)
 		exit(1);
-	process(i, msg);
+	process(i, msg, 0);
 	ft_putstr("recu\n");
 	free(msg);
 }

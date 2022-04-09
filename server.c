@@ -37,23 +37,15 @@ void	ft_check(char **msg, char **str, int *j)
 		exit(1);
 	}
 	*str = NULL;
-	j++;
-	j = 0;
+	*j = 0;
 }
 
-void	ft_getmsg(char c, int mark)
+void	ft_getmsg(char c)
 {
 	static char	*msg = NULL;
 	static char	*str = NULL;
 	static int	j = 0;
 
-	if (mark == 1)
-	{
-		ft_check(&msg, &str, &j);
-		ft_putstr(msg);
-		free(msg);
-		return ;
-	}
 	if (!str)
 	{
 		str = ft_calloc(1001);
@@ -64,12 +56,20 @@ void	ft_getmsg(char c, int mark)
 	j++;
 	if (j == 999)
 		ft_check(&msg, &str, &j);
+	if (c == 0)
+	{
+		ft_check(&msg, &str, &j);
+		ft_putstr(msg);
+		free(msg);
+		msg = NULL;
+	}
 }
 
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
 	static char	bin[9];
 	static int	i = 0;
+
 	(void)ucontext;
 	if (sig == SIGUSR1)
 		bin[i++] = '0';
@@ -77,26 +77,17 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		bin[i++] = '1';
 	if (i == 8)
 	{
-		ft_getmsg(ft_btoc(bin), 0);
+		ft_getmsg(ft_btoc(bin));
 		bin[i] = 0;
 		i = 0;
 	}
-	if (usleep(1000000) == 0)
-		ft_getmsg(0, 1);
 	kill(info->si_pid, SIGUSR1);
 }
 
-int	main(void)
+void	process(void)
 {
-	int	i;
 	struct sigaction	sig;
 
-	i = getpid();
-	if (i < 2)
-		exit(0);
-	ft_putstr("PID : ");
-	ft_putnbr(i);
-	ft_putstr("\n");
 	sig.sa_sigaction = &handler;
 	if (sigemptyset(&(sig).sa_mask) == -1)
 		exit(1);
@@ -107,5 +98,18 @@ int	main(void)
 	{
 	
 	}
+}
+
+int	main(void)
+{
+	int	i;
+
+	i = getpid();
+	if (i < 2)
+		exit(0);
+	ft_putstr("PID : ");
+	ft_putnbr(i);
+	ft_putstr("\n");
+	process();
 	return (0);
 }
