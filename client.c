@@ -12,7 +12,6 @@
 
 #include "Minitalk.h"
 
-
 //inverser get bin char et get char 
 
 static int	g_glob = 0;
