@@ -40,7 +40,7 @@ void	ft_check(char **msg, char **str, int *j)
 	*j = 0;
 }
 
-void	ft_getmsg(char c)
+int	ft_getmsg(char c)
 {
 	static char	*msg = NULL;
 	static char	*str = NULL;
@@ -62,22 +62,36 @@ void	ft_getmsg(char c)
 		ft_putstr(msg);
 		free(msg);
 		msg = NULL;
+		return (1);
 	}
+	return (0);
+}
+
+void	reset(pid_t *pid, int *i, pid_t newpid)
+{
+	*pid = newpid;
+	*i = 0;
 }
 
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
 	static char	bin[9];
 	static int	i = 0;
+	static pid_t	pid = 0;
 
 	(void)ucontext;
+	if (pid == 0)
+		pid = info->si_pid;
+	if (info->si_pid != pid)
+		reset(&pid, &i, info->si_pid);
 	if (sig == SIGUSR1)
 		bin[i++] = '0';
 	if (sig == SIGUSR2)
 		bin[i++] = '1';
 	if (i == 8)
 	{
-		ft_getmsg(ft_btoc(bin));
+		if (ft_getmsg(ft_btoc(bin)) == 1)
+			pid = 0;
 		bin[i] = 0;
 		i = 0;
 	}
@@ -91,6 +105,8 @@ void	process(void)
 	sig.sa_sigaction = &handler;
 	if (sigemptyset(&(sig).sa_mask) == -1)
 		exit(1);
+	sigaddset(&(sig).sa_mask, SIGUSR1);
+	sigaddset(&(sig).sa_mask, SIGUSR2);
 	sig.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sig, NULL);
 	sigaction(SIGUSR2, &sig, NULL);

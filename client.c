@@ -110,6 +110,7 @@ void	process(int pid, char *msg, int i)
 		wait.sa_sigaction = &handler;
 		if (sigemptyset(&(wait).sa_mask) == -1)
 			exit(1);
+		sigaddset(&(wait).sa_mask, SIGUSR1);
 		wait.sa_flags = SA_SIGINFO;
 		sigaction(SIGUSR1, &wait, NULL);
 		while (g_glob == 0)
