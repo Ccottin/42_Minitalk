@@ -18,11 +18,13 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-void	*ft_calloc(int size);
 void	ft_putnbr(int n);
+void	*ft_calloc(int size);
+void	reset(pid_t *pid, int *i, pid_t newpid);
+int		ft_atoi(char *str);
 int		ft_strlen(char *str);
 int		ft_putstr(char *str);
-int		ft_atoi(char *str);
+char	*get_bin(char *str);
 char	*ft_concat(char *s1, char *s2);
 
 #endif

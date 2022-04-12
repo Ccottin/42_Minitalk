@@ -12,22 +12,6 @@
 
 #include "Minitalk.h"
 
-char	ft_btoc(char *bin)
-{
-	int	i;
-	unsigned char	c;
-
-
-	i = 0;
-	c = 0;
-	while (i < 8)
-	{
-		c = c * 2 + (bin[i] - 48);
-		i++;
-	}
-	return (c);
-}
-
 void	ft_check(char **msg, char **str, int *j)
 {
 	*msg = ft_concat(*msg, *str);
@@ -67,15 +51,9 @@ int	ft_getmsg(char c)
 	return (0);
 }
 
-void	reset(pid_t *pid, int *i, pid_t newpid)
-{
-	*pid = newpid;
-	*i = 0;
-}
-
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
-	static char	bin[9];
+	static unsigned char	c = 0;
 	static int	i = 0;
 	static pid_t	pid = 0;
 
@@ -84,15 +62,18 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		pid = info->si_pid;
 	if (info->si_pid != pid)
 		reset(&pid, &i, info->si_pid);
-	if (sig == SIGUSR1)
-		bin[i++] = '0';
-	if (sig == SIGUSR2)
-		bin[i++] = '1';
+	if (i < 8)
+	{
+		if (sig == SIGUSR1)
+			c = c * 2;
+		if (sig == SIGUSR2)
+			c = c * 2 + 1;
+		i++;
+	}
 	if (i == 8)
 	{
-		if (ft_getmsg(ft_btoc(bin)) == 1)
+		if (ft_getmsg(c) == 1)
 			pid = 0;
-		bin[i] = 0;
 		i = 0;
 	}
 	kill(info->si_pid, SIGUSR1);

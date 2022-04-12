@@ -68,3 +68,9 @@ char	*ft_concat(char *s1, char *s2)
 	free(s2);
 	return (ret);
 }
+
+void	reset(pid_t *pid, int *i, pid_t newpid)
+{
+	*pid = newpid;
+	*i = 0;
+}
