@@ -6,7 +6,7 @@
 /*   By: ccottin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:10:05 by ccottin           #+#    #+#             */
-/*   Updated: 2022/04/08 18:44:41 by ccottin          ###   ########.fr       */
+/*   Updated: 2022/04/13 16:21:32 by ccottin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	ft_getmsg(char c)
 
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
+	static pid_t			pid = 0;
 	static unsigned char	c = 0;
-	static int	i = 0;
-	static pid_t	pid = 0;
+	static int				i = 0;
 
 	(void)ucontext;
 	if (pid == 0)
@@ -93,7 +93,6 @@ void	process(void)
 	sigaction(SIGUSR2, &sig, NULL);
 	while (1)
 	{
-	
 	}
 }
 

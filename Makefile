@@ -1,7 +1,7 @@
 
 SRCS	= utils.c	utils2.c	server.c
 
-SRCC	= utils.c	utils2.c	client.c
+SRCC	= utils.c	utils2.c	client.c	client_bin.c
 
 OBJS	= $(SRCS:.c=.o)
 

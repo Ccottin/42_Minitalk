@@ -6,7 +6,7 @@
 /*   By: ccottin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:03:50 by ccottin           #+#    #+#             */
-/*   Updated: 2022/04/08 18:20:07 by ccottin          ###   ########.fr       */
+/*   Updated: 2022/04/13 16:24:59 by ccottin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_calloc(int size)
 {
-	int	i;
+	int		i;
 	char	*ret;
 
 	ret = malloc(size);
@@ -26,7 +26,7 @@ void	*ft_calloc(int size)
 		ret[i] = 0;
 		i++;
 	}
-	return ((void*)ret);
+	return ((void *)ret);
 }
 
 int	ft_strlen(char *str)
@@ -36,10 +36,10 @@ int	ft_strlen(char *str)
 	i = 0;
 	while (str[i])
 		i++;
-	return(i);
+	return (i);
 }
 
-int	ft_putstr(char * str)
+int	ft_putstr(char *str)
 {
 	int	i;
 	int	ret;

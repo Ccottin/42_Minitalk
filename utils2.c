@@ -6,7 +6,7 @@
 /*   By: ccottin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:13:11 by ccottin           #+#    #+#             */
-/*   Updated: 2022/04/08 17:13:53 by ccottin          ###   ########.fr       */
+/*   Updated: 2022/04/13 16:38:42 by ccottin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ int	ft_atoi(char *str)
 
 char	*ft_concat(char *s1, char *s2)
 {
-	int	j;
-	int	i;
 	char	*ret;
+	int		j;
+	int		i;
 
 	if (!s1)
 		return (s2);
@@ -73,4 +73,20 @@ void	reset(pid_t *pid, int *i, pid_t newpid)
 {
 	*pid = newpid;
 	*i = 0;
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	if (!s1 || !s2)
+		return (0);
+	i = 0;
+	while ((s1[i] || s2[i]) && s1[i] == s2[i])
+		i++;
+	if (s1[i] > s2[i])
+		return (1);
+	if (s1[i] < s2[i])
+		return (-1);
+	return (0);
 }

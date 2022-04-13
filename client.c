@@ -6,7 +6,7 @@
 /*   By: ccottin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 17:02:43 by ccottin           #+#    #+#             */
-/*   Updated: 2022/04/08 18:41:47 by ccottin          ###   ########.fr       */
+/*   Updated: 2022/04/13 17:41:15 by ccottin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	check_arg(char **av)
 		i++;
 	}
 	i = ft_atoi(av[1]);
+	if (av[2] == NULL || ft_strcmp(av[2], "") == 0)
+		return (-1);
 	return (i);
 }
 
@@ -88,8 +90,8 @@ void	process(int pid, char *msg, int i)
 
 int	main(int ac, char **av)
 {
-	int	i;
 	char	*msg;
+	int		i;
 
 	if (ac != 3)
 		exit(0);
